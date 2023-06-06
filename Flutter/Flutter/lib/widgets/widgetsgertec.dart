@@ -7,10 +7,10 @@ class WidgetsGertec extends StatelessWidget {
   }
 
   // Botão padrão, recebe como parâmetro uma string('texto') e a função que vai ser chamada ao pressionar o botão('voidCallback')
-  static Widget buttonStandard(String text, {VoidCallback callback}) {
+  static Widget buttonStandard(String text, {VoidCallback? callback}) {
     return SizedBox(
       width: 240,
-      child: RaisedButton(
+      child: ElevatedButton(
         child: Text(text),
         onPressed: callback,
       ),
@@ -19,7 +19,7 @@ class WidgetsGertec extends StatelessWidget {
 
   // Dialogo que ira aparecer após a função Sat ser iniciada e ocorrer algum erro ou tudo ocorrer certo
   static void dialogoSat(String messageText,
-      {@required BuildContext context, double heightDialog = 100}) {
+      {required BuildContext context, double heightDialog = 100}) {
     showDialog(
       context: context,
       builder: (context) {
@@ -34,7 +34,7 @@ class WidgetsGertec extends StatelessWidget {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -48,7 +48,7 @@ class WidgetsGertec extends StatelessWidget {
 
   static Widget formField(
       TextEditingController textFormField, String textAntesForm,
-      {TextInputType textInputType}) {
+      {TextInputType? textInputType}) {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: Row(

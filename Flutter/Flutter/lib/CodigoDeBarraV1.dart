@@ -17,15 +17,15 @@ class PageCodigoDeBarraV1 extends StatelessWidget {
 }
 
 class CodigoDeBarrav1 extends StatefulWidget {
-  CodigoDeBarrav1({Key key, this.title}) : super(key: key);
-  final String title;
+  CodigoDeBarrav1({Key? key, this.title}) : super(key: key);
+  final String? title;
   _CodigoDeBarrav1 createState() => _CodigoDeBarrav1();
 }
 
 class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
   static const platform = const MethodChannel('samples.flutter.dev/gedi');
   final myController = TextEditingController();
-  List<String> resultadosBardCod = new List<String>();
+  List<String> resultadosBardCod = [];
 
   Future<void> _leitorCodigoDeBarra(String tipoLeitura) async {
     print("_leitorCodigoDeBarra");
@@ -43,16 +43,15 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
   Widget build(BuildContext context) {
     double defaultScreenWidth = 400.0;
     double defaultScreenHeight = 810.0;
-    ScreenUtil.instance = ScreenUtil(
-      width: defaultScreenWidth,
-      height: defaultScreenHeight,
-      allowFontScaling: true,
-    )..init(context);
+    ScreenUtil.init(
+      context,
+      designSize: Size(defaultScreenWidth, defaultScreenHeight),
+    );
 
     return new Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: ScreenUtil.instance.setWidth(40.0),
+          top: ScreenUtil().setWidth(40.0),
         ),
         child: Column(
           children: <Widget>[
@@ -67,13 +66,12 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: ScreenUtil.instance.setWidth(100),
-                  child: RaisedButton(
+                  width: ScreenUtil().setWidth(100),
+                  child: ElevatedButton(
                     child: Text(
                       'EAN 8',
                       style: TextStyle(
-                          fontSize: ScreenUtil.instance.setSp(15),
-                          color: Colors.red),
+                          fontSize: ScreenUtil().setSp(15), color: Colors.red),
                     ),
                     onPressed: () {
                       _leitorCodigoDeBarra("EAN_8");
@@ -81,13 +79,12 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
                   ),
                 ),
                 SizedBox(
-                  width: ScreenUtil.instance.setWidth(100),
-                  child: RaisedButton(
+                  width: ScreenUtil().setWidth(100),
+                  child: ElevatedButton(
                     child: Text(
                       'EAN 13',
                       style: TextStyle(
-                          fontSize: ScreenUtil.instance.setSp(15),
-                          color: Colors.red),
+                          fontSize: ScreenUtil().setSp(15), color: Colors.red),
                     ),
                     onPressed: () {
                       _leitorCodigoDeBarra("EAN_13");
@@ -95,13 +92,12 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
                   ),
                 ),
                 SizedBox(
-                  width: ScreenUtil.instance.setWidth(100), // specific value
-                  child: RaisedButton(
+                  width: ScreenUtil().setWidth(100), // specific value
+                  child: ElevatedButton(
                     child: Text(
                       'EAN 14',
                       style: TextStyle(
-                          fontSize: ScreenUtil.instance.setSp(15),
-                          color: Colors.red),
+                          fontSize: ScreenUtil().setSp(15), color: Colors.red),
                     ),
                     onPressed: () {
                       _leitorCodigoDeBarra("EAN_14");
@@ -109,13 +105,12 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
                   ),
                 ),
                 SizedBox(
-                  width: ScreenUtil.instance.setWidth(100), // specific value
-                  child: RaisedButton(
+                  width: ScreenUtil().setWidth(100), // specific value
+                  child: ElevatedButton(
                     child: Text(
                       'QR CODE',
                       style: TextStyle(
-                          fontSize: ScreenUtil.instance.setSp(15),
-                          color: Colors.red),
+                          fontSize: ScreenUtil().setSp(15), color: Colors.red),
                     ),
                     onPressed: () {
                       _leitorCodigoDeBarra("QR_CODE");
@@ -138,7 +133,7 @@ class _CodigoDeBarrav1 extends State<CodigoDeBarrav1> {
                         resultadosBardCod[index],
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: ScreenUtil.instance.setSp(12.0),
+                            fontSize: ScreenUtil().setSp(12.0),
                             color: Colors.black54),
                       ),
                     ),

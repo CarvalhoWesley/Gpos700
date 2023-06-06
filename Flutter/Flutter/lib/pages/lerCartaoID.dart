@@ -17,15 +17,15 @@ class PageLeituraCartaoID extends StatelessWidget {
 
 class LeituraCartaoID extends StatefulWidget {
   @override
-  LeituraCartaoID({Key key, this.title}) : super(key: key);
-  final String title;
+  LeituraCartaoID({Key? key, this.title}) : super(key: key);
+  final String? title;
   _LeituraCartaoID createState() => _LeituraCartaoID();
 }
 
 class _LeituraCartaoID extends State<LeituraCartaoID> {
   static const platform = const MethodChannel('samples.flutter.dev/gedi');
   final myController = TextEditingController();
-  List<String> resultadosNFCID = new List<String>();
+  List<String> resultadosNFCID = [];
 
   Future<void> _lerCartaoID() async {
     try {
@@ -46,13 +46,14 @@ class _LeituraCartaoID extends State<LeituraCartaoID> {
           children: [
             Container(
                 padding: EdgeInsets.only(top: 60),
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("Ler Cartão Nfc (Nativo)"),
                   onPressed: () {
                     _lerCartaoID();
                   },
                 )),
-            Container(padding: EdgeInsets.only(top: 20), child: Text("ID Cartões")),
+            Container(
+                padding: EdgeInsets.only(top: 20), child: Text("ID Cartões")),
             Expanded(
               child: new ListView.builder(
                 shrinkWrap: true,
@@ -65,7 +66,10 @@ class _LeituraCartaoID extends State<LeituraCartaoID> {
                       dense: true,
                       title: Text(
                         resultadosNFCID[index],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0, color: Colors.black54),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                            color: Colors.black54),
                       ),
                     ),
                   );

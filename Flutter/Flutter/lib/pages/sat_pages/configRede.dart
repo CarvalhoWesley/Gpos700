@@ -13,7 +13,8 @@ class PageConfigSat extends StatefulWidget {
 
 class _PageConfigSatState extends State<PageConfigSat> {
   // Inicializa o código de ativação com um valor global, para o usuario não precisar ficar digitando
-  final codigoAtivacao = TextEditingController(text: GlobalValues.codAtivarSat); // Codigo de ativação
+  final codigoAtivacao = TextEditingController(
+      text: GlobalValues.codAtivarSat); // Codigo de ativação
 
   final ipSat = TextEditingController(); // Ip do Sat para ser ativado
   final mascara = TextEditingController(); // Mascara Rede
@@ -28,14 +29,16 @@ class _PageConfigSatState extends State<PageConfigSat> {
   String habilitarDNS = "Sim"; // Armazena opção Dns
   String habilitarProxy = "Não usa proxy"; // Armazena o tipo proxy de rede
 
-  CommonGertec commonGertec = new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
+  CommonGertec commonGertec =
+      new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
 
   // Função para validar os valores digitos pelo usuario e realizar a ativação do SAT
   void configRedeSat() async {
-    GlobalValues.codAtivarSat = codigoAtivacao.text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
+    GlobalValues.codAtivarSat = codigoAtivacao
+        .text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
     if (commonGertec.isCodigoValido(codigoAtivacao.text)) {
       //* Chama a função Invocar Operação Sat, que recebe como parâmetro a "operação invocada" e um "Map com as chaves e seus respectivos valores".
-      RetornoSat retornoSat = await OperacaoSat.invocarOperacaoSat(
+      RetornoSat? retornoSat = await OperacaoSat.invocarOperacaoSat(
         // Passa como parâmetro um Map de argumentos de valores que deseja enviar
         args: {
           'funcao': "EnviarConfRede",
@@ -50,10 +53,13 @@ class _PageConfigSatState extends State<PageConfigSat> {
       //* Está função [OperacaoSat.formataRetornoSat] recebe como parâmetro a operação realizada e um objeto do tipo RetornoSat
       //* Retorna uma String com os valores obtidos do retorno da Operação já formatados e prontos para serem exibidos na tela
       // Recomenda-se acessar a função e entender como ela funciona
-      String retornoFormatado = OperacaoSat.formataRetornoSat(retornoSat: retornoSat);
+      String retornoFormatado =
+          OperacaoSat.formataRetornoSat(retornoSat: retornoSat!);
       WidgetsGertec.dialogoSat(retornoFormatado, context: context);
     } else {
-      WidgetsGertec.dialogoSat("Código de Ativação deve ter entre 8 a 32 caracteres!", context: context);
+      WidgetsGertec.dialogoSat(
+          "Código de Ativação deve ter entre 8 a 32 caracteres!",
+          context: context);
     }
   }
 
@@ -85,15 +91,16 @@ class _PageConfigSatState extends State<PageConfigSat> {
                     iconSize: 24,
                     elevation: 16,
                     style: TextStyle(color: Colors.black, fontSize: 15),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(
                         () {
                           print(newValue);
-                          tipoRede = newValue;
+                          tipoRede = newValue!;
                         },
                       );
                     },
-                    items: <String>["Estático", "DHCP"].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>["Estático", "DHCP"]
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value.toString()),
@@ -116,14 +123,15 @@ class _PageConfigSatState extends State<PageConfigSat> {
                     iconSize: 24,
                     elevation: 16,
                     style: TextStyle(color: Colors.black, fontSize: 15),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(
                         () {
-                          habilitarDNS = newValue;
+                          habilitarDNS = newValue!;
                         },
                       );
                     },
-                    items: <String>["Sim", "Não"].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>["Sim", "Não"]
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value.toString()),
@@ -146,14 +154,18 @@ class _PageConfigSatState extends State<PageConfigSat> {
                     iconSize: 24,
                     elevation: 16,
                     style: TextStyle(color: Colors.black, fontSize: 15),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(
                         () {
-                          habilitarProxy = newValue;
+                          habilitarProxy = newValue!;
                         },
                       );
                     },
-                    items: <String>["Não usa proxy", "Proxy com configuração", "Proxy transparente"].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>[
+                      "Não usa proxy",
+                      "Proxy com configuração",
+                      "Proxy transparente"
+                    ].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value.toString()),
@@ -164,7 +176,8 @@ class _PageConfigSatState extends State<PageConfigSat> {
               ),
               verificartipoProxy(),
               SizedBox(height: 20),
-              WidgetsGertec.buttonStandard("ENVIAR", callback: () => configRedeSat())
+              WidgetsGertec.buttonStandard("ENVIAR",
+                  callback: () => configRedeSat())
             ],
           ),
         ),
@@ -216,7 +229,7 @@ class _PageConfigSatState extends State<PageConfigSat> {
 
   // Configuracao os dados a serem enviados para o Sat
   List<String> formatarEnvioConfigRede() {
-    List<String> dadosXml = new List<String>(11);
+    List<String> dadosXml = new List<String>.filled(11, '');
     dadosXml[0] = "";
     dadosXml[1] = "";
     dadosXml[2] = "";

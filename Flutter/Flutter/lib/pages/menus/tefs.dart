@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gertec/config_tef/operacaoRetorno.dart';
 import 'package:flutter_gertec/services/serviceTet.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class PageTef extends StatefulWidget {
   @override
@@ -62,7 +62,7 @@ class _PageTefState extends State<PageTef> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -164,13 +164,13 @@ class _PageTefState extends State<PageTef> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Não"),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
+            ElevatedButton(
               child: Text("Sim"),
               onPressed: () {
                 impressaoNota(textoNota, size);
@@ -186,9 +186,9 @@ class _PageTefState extends State<PageTef> {
   }
 
   // Altera o valor da opcao de habilitar impressao (true, false)
-  void alterarValorImpressao(bool newValue) => setState(
+  void alterarValorImpressao(bool? newValue) => setState(
         () {
-          habilitarImpressao = newValue;
+          habilitarImpressao = newValue!;
         },
       );
 
@@ -311,7 +311,7 @@ class _PageTefState extends State<PageTef> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -342,7 +342,7 @@ class _PageTefState extends State<PageTef> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -380,7 +380,7 @@ class _PageTefState extends State<PageTef> {
                 ],
               )),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -409,7 +409,7 @@ class _PageTefState extends State<PageTef> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.pop(context);
@@ -422,28 +422,28 @@ class _PageTefState extends State<PageTef> {
   }
 
   //Marca o valor do tipo de Tef escolhido
-  void radioButtonChangeTef(String value) {
+  void radioButtonChangeTef(String? value) {
     setState(
       () {
-        tefSelecionado = value;
+        tefSelecionado = value ?? '';
       },
     );
   }
 
   //Marca o valor do tipo de Parcelamento escolhido
-  void radioButtonChangeParcelamento(String value) {
+  void radioButtonChangeParcelamento(String? value) {
     setState(
       () {
-        tipoParcelamento = value;
+        tipoParcelamento = value ?? '';
       },
     );
   }
 
   //Marca o valor do tipo de pagamento escolhido
-  void radioButtonChangePagamento(String value) {
+  void radioButtonChangePagamento(String? value) {
     setState(
       () {
-        tipoPagamentoSelecionado = value;
+        tipoPagamentoSelecionado = value ?? '';
       },
     );
   }
@@ -611,7 +611,7 @@ class _PageTefState extends State<PageTef> {
         keyboardType: TextInputType.number,
         controller: ipServidor,
         inputFormatters: [
-          BlacklistingTextInputFormatter(RegExp("[-, ]")),
+          FilteringTextInputFormatter.deny(RegExp("[-, ]")),
         ],
         style: TextStyle(fontSize: 17),
       );
@@ -620,7 +620,7 @@ class _PageTefState extends State<PageTef> {
         decoration: InputDecoration(hintText: '192.168.0.1'),
         keyboardType: TextInputType.number,
         inputFormatters: [
-          BlacklistingTextInputFormatter(RegExp("[-, ]")),
+          FilteringTextInputFormatter.deny(RegExp("[-, ]")),
         ],
         controller: ipServidor,
         style: TextStyle(fontSize: 17),
@@ -635,7 +635,7 @@ class _PageTefState extends State<PageTef> {
       return TextFormField(
         enabled: false,
         inputFormatters: <TextInputFormatter>[
-          WhitelistingTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.digitsOnly,
         ],
         keyboardType: TextInputType.numberWithOptions(signed: false),
         controller: numParcelas,
@@ -644,7 +644,7 @@ class _PageTefState extends State<PageTef> {
     } else {
       return TextFormField(
         inputFormatters: <TextInputFormatter>[
-          WhitelistingTextInputFormatter.digitsOnly,
+          FilteringTextInputFormatter.digitsOnly,
         ],
         keyboardType: TextInputType.numberWithOptions(signed: false),
         controller: numParcelas,
@@ -774,7 +774,7 @@ class _PageTefState extends State<PageTef> {
     );
   }
 
-  Widget radioCheck(String text, String controll, Function onChange) {
+  Widget radioCheck(String text, String controll, Function(String?) onChange) {
     return SizedBox(
       height: 30,
       child: Radio(
@@ -789,7 +789,7 @@ class _PageTefState extends State<PageTef> {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 30,
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: callback,
           child: Text(
             text,

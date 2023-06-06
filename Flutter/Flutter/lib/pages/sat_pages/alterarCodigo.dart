@@ -16,17 +16,21 @@ class _PageCodigoSatState extends State<PageCodigoSat> {
   final codigoAtivacaoNovo = TextEditingController(); // Codigo de ativação Novo
 
   // Inicializa o código de ativação com um valor global, para o usuario não precisar ficar digitando
-  final codigoAtivacao = TextEditingController(text: GlobalValues.codAtivarSat); // Codigo de ativação Novo
+  final codigoAtivacao = TextEditingController(
+      text: GlobalValues.codAtivarSat); // Codigo de ativação Novo
   final confirmacaoCodigo = TextEditingController(); // Confirmação do codigo
   String tipoCodigo = "Código de ativação"; // Armazena o tipo de codigo
 
-  CommonGertec commonGertec = new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
+  CommonGertec commonGertec =
+      new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
 
   // Função para validar os valores digitos pelo usuario e realizar a ativação do SAT
   void alterarCodigoSat() async {
-    GlobalValues.codAtivarSat = codigoAtivacao.text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
+    GlobalValues.codAtivarSat = codigoAtivacao
+        .text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
     // Verifica se as entradas são validas
-    if (commonGertec.isCodigoValido(codigoAtivacao.text) && commonGertec.isCodigoValido(codigoAtivacaoNovo.text)) {
+    if (commonGertec.isCodigoValido(codigoAtivacao.text) &&
+        commonGertec.isCodigoValido(codigoAtivacaoNovo.text)) {
       if (codigoAtivacaoNovo.text == confirmacaoCodigo.text) {
         // No Java o Sat reconhece 1 - Como sendo a opção de mudar codigo de ativação
         // 2 como sendo a opção de alterar codigo de emergência
@@ -37,11 +41,12 @@ class _PageCodigoSatState extends State<PageCodigoSat> {
           op = 2;
 
         //* Chama a função Invocar Operação Sat, que recebe como parâmetro a "operação invocada" e um "Map com as chaves e seus respectivos valores".
-        RetornoSat retornoSat = await OperacaoSat.invocarOperacaoSat(
+        RetornoSat? retornoSat = await OperacaoSat.invocarOperacaoSat(
           // Passa como parâmetro um Map de argumentos de valores que deseja enviar
           args: {
             'funcao': "TrocarCodAtivacao",
-            'random': Random().nextInt(999999), // Cada chamada no Java deve acompanhar diferente
+            'random': Random().nextInt(
+                999999), // Cada chamada no Java deve acompanhar diferente
             'codigoAtivar': codigoAtivacao.text.toString(),
             'codigoAtivacaoNovo': codigoAtivacaoNovo.text.toString(),
             'op': op
@@ -52,13 +57,18 @@ class _PageCodigoSatState extends State<PageCodigoSat> {
         //* Está função [OperacaoSat.formataRetornoSat] recebe como parâmetro a operação realizada e um objeto do tipo RetornoSat
         //* Retorna uma String com os valores obtidos do retorno da Operação já formatados e prontos para serem exibidos na tela
         // Recomenda-se acessar a função e entender como ela funciona
-        String retornoFormatado = OperacaoSat.formataRetornoSat(retornoSat: retornoSat);
+        String retornoFormatado =
+            OperacaoSat.formataRetornoSat(retornoSat: retornoSat!);
         WidgetsGertec.dialogoSat(retornoFormatado, context: context);
       } else {
-        WidgetsGertec.dialogoSat("O Código de Ativação Novo e a Confirmação do Código de Ativação não correspondem!", context: context);
+        WidgetsGertec.dialogoSat(
+            "O Código de Ativação Novo e a Confirmação do Código de Ativação não correspondem!",
+            context: context);
       }
     } else {
-      WidgetsGertec.dialogoSat("Código de Ativação deve ter entre 8 a 32 caracteres!", context: context);
+      WidgetsGertec.dialogoSat(
+          "Código de Ativação deve ter entre 8 a 32 caracteres!",
+          context: context);
     }
   }
 
@@ -85,7 +95,7 @@ class _PageCodigoSatState extends State<PageCodigoSat> {
               SizedBox(height: 20),
               SizedBox(
                 width: 240,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("ALTERAR"),
                   onPressed: () {
                     alterarCodigoSat();
@@ -112,10 +122,10 @@ class _PageCodigoSatState extends State<PageCodigoSat> {
           iconSize: 24,
           elevation: 16,
           style: TextStyle(color: Colors.black, fontSize: 15),
-          onChanged: (String newValue) {
+          onChanged: (String? newValue) {
             setState(
               () {
-                tipoCodigo = newValue;
+                tipoCodigo = newValue!;
               },
             );
           },

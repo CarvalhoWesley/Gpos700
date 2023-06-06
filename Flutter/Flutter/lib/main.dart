@@ -25,9 +25,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -102,11 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     double defaultScreenWidth = MediaQuery.of(context).size.width;
     double defaultScreenHeight = MediaQuery.of(context).size.height;
-    ScreenUtil.instance = ScreenUtil(
-      width: defaultScreenWidth,
-      height: defaultScreenHeight,
-      allowFontScaling: true,
-    )..init(context);
+    ScreenUtil.init(
+      context,
+      designSize: Size(defaultScreenWidth, defaultScreenHeight),
+    );
 
     return new Scaffold(
       body: Column(
@@ -119,7 +118,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 new Image.asset('assets/gertec.png'),
                 Text(
                   "Flutter Project v1.0.0",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenUtil.instance.setSp(30.0), color: Colors.black87),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: ScreenUtil().setSp(30.0),
+                      color: Colors.black87),
                 ),
               ],
             ),
@@ -138,15 +140,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListTile(
                     dense: true,
                     leading: Image(
-                      image: AssetImage(listaNomeFuncoes[index]["img"]),
+                      image: AssetImage(listaNomeFuncoes[index]["img"] ?? ''),
                     ),
                     onTap: () {
                       trocarTela(index);
                     },
                     title: Center(
                       child: Text(
-                        listaNomeFuncoes[index]["name"],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: ScreenUtil.instance.setSp(20.0), color: Colors.black54),
+                        listaNomeFuncoes[index]["name"] ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: ScreenUtil().setSp(20.0),
+                            color: Colors.black54),
                       ),
                     ),
                   ),

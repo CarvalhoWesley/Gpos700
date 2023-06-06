@@ -6,7 +6,7 @@ import 'package:flutter_gertec/services/operacaoSat.dart';
 import 'package:flutter_gertec/services/retornoSat.dart';
 import 'package:flutter_gertec/util/common_code.dart';
 import 'package:flutter_gertec/widgets/widgetsgertec.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class PageAtivarSat extends StatefulWidget {
   @override
@@ -14,28 +14,40 @@ class PageAtivarSat extends StatefulWidget {
 }
 
 class _PageAtivarSatState extends State<PageAtivarSat> {
-  final cnpj = MaskedTextController(mask: "00.000.000/0000-00"); // CNPJ do contribuinte
+  final cnpj =
+      MaskedTextController(mask: "00.000.000/0000-00"); // CNPJ do contribuinte
 
   // Inicializa o código de ativação com um valor global, para o usuario não precisar ficar digitando
-  final codigoAtivacao = TextEditingController(text: GlobalValues.codAtivarSat); // Codigo de ativação que vai ser utilizado
+  final codigoAtivacao = TextEditingController(
+      text: GlobalValues
+          .codAtivarSat); // Codigo de ativação que vai ser utilizado
 
   final confirmacaoCodigo = TextEditingController(); // Confirmação do codigo
 
-  CommonGertec commonGertec = new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
+  CommonGertec commonGertec =
+      new CommonGertec(); //* Classe que possui partes de código comuns em diversas telas
 
   // Função para validar os valores digitos pelo usuario e realizar a ativação do SAT
   void ativarSat() async {
-    GlobalValues.codAtivarSat = codigoAtivacao.text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
+    GlobalValues.codAtivarSat = codigoAtivacao
+        .text; // Salva  o código de ativação para o usuario não precisar ficar digitando em todas as telas
     if (commonGertec.isCodigoValido(codigoAtivacao.text)) {
       if (codigoAtivacao.text == confirmacaoCodigo.text) {
-        String cnpjNoMask = commonGertec.removeMaskCnpj(cnpj.text); // Remove a mascara do CNPJ para validar
+        String cnpjNoMask = commonGertec
+            .removeMaskCnpj(cnpj.text); // Remove a mascara do CNPJ para validar
         if (cnpjNoMask.length != 14) {
-          WidgetsGertec.dialogoSat("Verifique o CNPJ digitado!", context: context);
+          WidgetsGertec.dialogoSat("Verifique o CNPJ digitado!",
+              context: context);
         } else {
           //* Chama a função Invocar Operação Sat, que recebe como parâmetro a "operação invocada" e um "Map com as chaves e seus respectivos valores".
-          RetornoSat retornoSat = await OperacaoSat.invocarOperacaoSat(
+          RetornoSat? retornoSat = await OperacaoSat.invocarOperacaoSat(
             // Passa como parâmetro um Map de argumentos de valores que deseja enviar
-            args: {'funcao': 'AtivarSAT', 'random': Random().nextInt(999999), 'codigoAtivar': codigoAtivacao.text.toString(), 'cnpj': cnpjNoMask},
+            args: {
+              'funcao': 'AtivarSAT',
+              'random': Random().nextInt(999999),
+              'codigoAtivar': codigoAtivacao.text.toString(),
+              'cnpj': cnpjNoMask
+            },
           );
 
           //? Caso deseje visualizar o retorno completo basta chamar [retornoSat.getResultadoCompleto]
@@ -43,14 +55,19 @@ class _PageAtivarSatState extends State<PageAtivarSat> {
           //* Está função [OperacaoSat.formataRetornoSat] recebe como parâmetro a operação realizada e um objeto do tipo RetornoSat
           //* Retorna uma String com os valores obtidos do retorno da Operação já formatados e prontos para serem exibidos na tela
           // Recomenda-se acessar a função e entender como ela funciona
-          String retornoFormatado = OperacaoSat.formataRetornoSat(retornoSat: retornoSat);
+          String retornoFormatado =
+              OperacaoSat.formataRetornoSat(retornoSat: retornoSat!);
           WidgetsGertec.dialogoSat(retornoFormatado, context: context);
         }
       } else {
-        WidgetsGertec.dialogoSat("O Código de Ativação e a Confirmação do Código de Ativação não correspondem!", context: context);
+        WidgetsGertec.dialogoSat(
+            "O Código de Ativação e a Confirmação do Código de Ativação não correspondem!",
+            context: context);
       }
     } else {
-      WidgetsGertec.dialogoSat("Código de Ativação deve ter entre 8 a 32 caracteres!", context: context);
+      WidgetsGertec.dialogoSat(
+          "Código de Ativação deve ter entre 8 a 32 caracteres!",
+          context: context);
     }
   }
 
@@ -68,15 +85,18 @@ class _PageAtivarSatState extends State<PageAtivarSat> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(height: 30),
-              WidgetsGertec.formField(cnpj, "CNPJ Contribuinte: ", textInputType: TextInputType.number),
+              WidgetsGertec.formField(cnpj, "CNPJ Contribuinte: ",
+                  textInputType: TextInputType.number),
               SizedBox(height: 20),
-              WidgetsGertec.formField(codigoAtivacao, "Código de Ativação SAT: "),
+              WidgetsGertec.formField(
+                  codigoAtivacao, "Código de Ativação SAT: "),
               SizedBox(height: 20),
-              WidgetsGertec.formField(confirmacaoCodigo, "Confirmação do Código: "),
+              WidgetsGertec.formField(
+                  confirmacaoCodigo, "Confirmação do Código: "),
               SizedBox(height: 20),
               SizedBox(
                 width: 240,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("ATIVAR"),
                   onPressed: () {
                     ativarSat();

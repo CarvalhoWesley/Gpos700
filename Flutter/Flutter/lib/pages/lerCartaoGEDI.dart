@@ -17,15 +17,15 @@ class PageLeituraCartaoGEDI extends StatelessWidget {
 
 class LeituraCartaoGEDI extends StatefulWidget {
   @override
-  LeituraCartaoGEDI({Key key, this.title}) : super(key: key);
-  final String title;
+  LeituraCartaoGEDI({Key? key, this.title}) : super(key: key);
+  final String? title;
   _LeituraCartaoGEDI createState() => _LeituraCartaoGEDI();
 }
 
 class _LeituraCartaoGEDI extends State<LeituraCartaoGEDI> {
   static const platform = const MethodChannel('samples.flutter.dev/gedi');
   final myController = TextEditingController();
-  List<String> resultadosNFCGEDI = new List<String>();
+  List<String> resultadosNFCGEDI = [];
 
   Future<void> _lerCartaoGEDI() async {
     try {
@@ -46,13 +46,14 @@ class _LeituraCartaoGEDI extends State<LeituraCartaoGEDI> {
           children: [
             Container(
                 padding: EdgeInsets.only(top: 60),
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("Ler Cartão Nfc (GEDI)"),
                   onPressed: () {
                     _lerCartaoGEDI();
                   },
                 )),
-            Container(padding: EdgeInsets.only(top: 20), child: Text("ID Cartões")),
+            Container(
+                padding: EdgeInsets.only(top: 20), child: Text("ID Cartões")),
             Expanded(
               child: new ListView.builder(
                 shrinkWrap: true,
@@ -65,7 +66,10 @@ class _LeituraCartaoGEDI extends State<LeituraCartaoGEDI> {
                       dense: true,
                       title: Text(
                         resultadosNFCGEDI[index],
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.0, color: Colors.black54),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12.0,
+                            color: Colors.black54),
                       ),
                     ),
                   );

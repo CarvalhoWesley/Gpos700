@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,8 +22,8 @@ class _PageTesteSatState extends State<PageTesteSat> {
       text: GlobalValues.valorCfe); // Chave de cancelamento
   final chaveSessao =
       TextEditingController(text: "123"); // Chave de sessao para consulta
-  String xmlVenda; // Xml de Venda a ser enviado, transformado em Base 64
-  String
+  String? xmlVenda; // Xml de Venda a ser enviado, transformado em Base 64
+  String?
       xmlCancelamento; // Xml de Cancelamento a ser enviado, transformado em Base 64
 
   CommonGertec commonGertec =
@@ -80,14 +79,14 @@ class _PageTesteSatState extends State<PageTesteSat> {
             ),
           ),
           actions: <Widget>[
-            FlatButton(
+            ElevatedButton(
               child: Text("Ok"),
               onPressed: () {
                 if (textEditingController.text.length > 0) {
                   Navigator.pop(context);
                   function();
                 } else {
-                  WidgetsGertec.dialogoSat("Verifique a entrada!");
+                  // WidgetsGertec.dialogoSat("Verifique a entrada!");
                 }
               },
             )
@@ -104,7 +103,7 @@ class _PageTesteSatState extends State<PageTesteSat> {
     if (funcao == "ConsultarSat" ||
         commonGertec.isCodigoValido(codigoAtivacao.text)) {
       //* Chama a função Invocar Operação Sat, que recebe como parâmetro a "operação invocada" e um "Map com as chaves e seus respectivos valores".
-      RetornoSat retornoSat = await OperacaoSat.invocarOperacaoSat(
+      RetornoSat? retornoSat = await OperacaoSat.invocarOperacaoSat(
         // Passa como parâmetro um Map de argumentos de valores que deseja enviar
         args: {
           //* os dados são enviados para o Java, mas nem todos são lidos, por isso não existe problema de alguns parametros estarem Nulos
@@ -124,7 +123,7 @@ class _PageTesteSatState extends State<PageTesteSat> {
       * O valor é armazenado em uma variavel global e quando o usuario abre a tela para cancelar venda, o campo (Chave de Cancelamento) já fica preenchido
       */
       if (funcao == 'EnviarTesteVendas') {
-        GlobalValues.valorCfe = retornoSat.getChaveConsulta;
+        GlobalValues.valorCfe = retornoSat?.getChaveConsulta;
         setState(() {
           chaveCancelamento.text = GlobalValues.valorCfe;
         });
@@ -134,7 +133,7 @@ class _PageTesteSatState extends State<PageTesteSat> {
       //* Retorna uma String com os valores obtidos do retorno da Operação já formatados e prontos para serem exibidos na tela
       // Recomenda-se acessar a função e entender como ela funciona
       String retornoFormatado =
-          OperacaoSat.formataRetornoSat(retornoSat: retornoSat);
+          OperacaoSat.formataRetornoSat(retornoSat: retornoSat!);
       WidgetsGertec.dialogoSat(retornoFormatado,
           context: context, heightDialog: 300);
     } else {

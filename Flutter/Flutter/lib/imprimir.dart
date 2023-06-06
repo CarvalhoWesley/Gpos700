@@ -18,8 +18,8 @@ class PageImprimir extends StatelessWidget {
 }
 
 class Imprimir extends StatefulWidget {
-  Imprimir({Key key, this.title}) : super(key: key);
-  final String title;
+  Imprimir({Key? key, this.title}) : super(key: key);
+  final String? title;
   _Imprimir createState() => _Imprimir();
 }
 
@@ -29,12 +29,12 @@ class _Imprimir extends State<Imprimir> {
   int dropdownValueSize = 20;
   int dropdownBarHeight = 280;
   int dropdownBarWidth = 280;
-  String dropdownFont = "DEFAULT";
-  String dropdownBarType = "QR_CODE";
-  String alinhar = "CENTER";
-  String valorSelecionado = "CENTER";
+  String? dropdownFont = "DEFAULT";
+  String? dropdownBarType = "QR_CODE";
+  String? alinhar = "CENTER";
+  String? valorSelecionado = "CENTER";
   List<bool> listSelecionado = [false, false, false];
-  void radioButtonChanges(String value) {
+  void radioButtonChanges(String? value) {
     setState(() {
       valorSelecionado = value;
       switch (value) {
@@ -65,9 +65,14 @@ class _Imprimir extends State<Imprimir> {
     );
   }
 
-  Future<void> _impressaoDeTexto(String texto, int fontSize, String alinhar,
-      String fontFamily, List<bool> selectedOptions) async {
-    if (texto.isEmpty) {
+  Future<void> _impressaoDeTexto(
+    String? texto,
+    int? fontSize,
+    String? alinhar,
+    String? fontFamily,
+    List<bool>? selectedOptions,
+  ) async {
+    if (texto!.isEmpty) {
       erroImpresao();
     } else {
       try {
@@ -133,17 +138,17 @@ class _Imprimir extends State<Imprimir> {
         return "Erro";
     } on PlatformException catch (e) {
       print(e.message);
+      return "Erro";
     }
   }
 
   Widget build(BuildContext context) {
     double defaultScreenWidth = 400.0;
     double defaultScreenHeight = 810.0;
-    ScreenUtil.instance = ScreenUtil(
-      width: defaultScreenWidth,
-      height: defaultScreenHeight,
-      allowFontScaling: true,
-    )..init(context);
+    ScreenUtil.init(
+      context,
+      designSize: Size(defaultScreenWidth, defaultScreenHeight),
+    );
     return new Scaffold(
       body: Center(
         child: Container(
@@ -160,14 +165,14 @@ class _Imprimir extends State<Imprimir> {
                   child: Text(
                     "Funções Impressão G700/G800",
                     style: TextStyle(
-                        fontSize: ScreenUtil.instance.setSp(25),
+                        fontSize: ScreenUtil().setSp(25),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               SizedBox(
                 width: 300,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("STATUS IMPRESSORA"),
                   onPressed: () {
                     _checarImpressora().then((value) {
@@ -199,7 +204,7 @@ class _Imprimir extends State<Imprimir> {
                   child: Text(
                     "Configuração de Impressão",
                     style: TextStyle(
-                        fontSize: ScreenUtil.instance.setSp(25),
+                        fontSize: ScreenUtil().setSp(25),
                         fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -237,9 +242,12 @@ class _Imprimir extends State<Imprimir> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   SizedBox(
-                    width: ScreenUtil.instance.setWidth(110),
-                    child: RaisedButton(
-                      color: listSelecionado[0] ? Colors.blue : Colors.grey,
+                    width: ScreenUtil().setWidth(110),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            listSelecionado[0] ? Colors.blue : Colors.grey),
+                      ),
                       onPressed: () {
                         setState(() {
                           listSelecionado[0] = !listSelecionado[0];
@@ -247,42 +255,43 @@ class _Imprimir extends State<Imprimir> {
                       },
                       child: Text(
                         "NEGRITO",
-                        style:
-                            TextStyle(fontSize: ScreenUtil.instance.setSp(12)),
+                        style: TextStyle(fontSize: ScreenUtil().setSp(12)),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: ScreenUtil.instance.setWidth(110),
-                    child: RaisedButton(
-                      color: listSelecionado[1] ? Colors.blue : Colors.grey,
+                    width: ScreenUtil().setWidth(110),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            listSelecionado[0] ? Colors.blue : Colors.grey),
+                      ),
                       onPressed: () {
                         setState(() {
                           listSelecionado[1] = !listSelecionado[1];
                         });
                       },
-                      disabledTextColor: Colors.black87,
                       child: Text(
                         "ITÁLICO",
-                        style:
-                            TextStyle(fontSize: ScreenUtil.instance.setSp(12)),
+                        style: TextStyle(fontSize: ScreenUtil().setSp(12)),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: ScreenUtil.instance.setWidth(110),
-                    child: RaisedButton(
-                      color: listSelecionado[2] ? Colors.blue : Colors.grey,
+                    width: ScreenUtil().setWidth(110),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            listSelecionado[0] ? Colors.blue : Colors.grey),
+                      ),
                       onPressed: () {
                         setState(() {
                           listSelecionado[2] = !listSelecionado[2];
                         });
                       },
-                      disabledTextColor: Colors.black87,
                       child: Text(
                         "SUBLINHADO",
-                        style:
-                            TextStyle(fontSize: ScreenUtil.instance.setSp(12)),
+                        style: TextStyle(fontSize: ScreenUtil().setSp(12)),
                       ),
                     ),
                   )
@@ -304,9 +313,9 @@ class _Imprimir extends State<Imprimir> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
-                    onChanged: (String newValue) {
+                    onChanged: (String? newValue) {
                       setState(() {
-                        dropdownFont = newValue;
+                        dropdownFont = newValue!;
                       });
                     },
                     items: <String>[
@@ -335,9 +344,9 @@ class _Imprimir extends State<Imprimir> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
-                    onChanged: (int newValue) {
+                    onChanged: (int? newValue) {
                       setState(() {
-                        dropdownValueSize = newValue;
+                        dropdownValueSize = newValue!;
                       });
                     },
                     items: <int>[20, 30, 40, 50, 70, 80, 90, 100]
@@ -355,7 +364,7 @@ class _Imprimir extends State<Imprimir> {
                 children: <Widget>[
                   SizedBox(
                     width: 150,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: Text(
                         'IMPRIMIR TEXTO',
                         style: TextStyle(fontSize: 12),
@@ -372,7 +381,7 @@ class _Imprimir extends State<Imprimir> {
                   ),
                   SizedBox(
                     width: 150,
-                    child: RaisedButton(
+                    child: ElevatedButton(
                       child: Text(
                         'IMPRIMIR IMAGEM',
                         style: TextStyle(fontSize: 12),
@@ -399,9 +408,9 @@ class _Imprimir extends State<Imprimir> {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
-                        onChanged: (int newValue) {
+                        onChanged: (int? newValue) {
                           setState(() {
-                            dropdownBarHeight = newValue;
+                            dropdownBarHeight = newValue!;
                           });
                         },
                         items: <int>[10, 40, 80, 120, 160, 200, 280, 320]
@@ -426,9 +435,9 @@ class _Imprimir extends State<Imprimir> {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
-                        onChanged: (int newValue) {
+                        onChanged: (int? newValue) {
                           setState(() {
-                            dropdownBarWidth = newValue;
+                            dropdownBarWidth = newValue!;
                           });
                         },
                         items: <int>[10, 40, 80, 120, 160, 200, 280, 320]
@@ -453,9 +462,9 @@ class _Imprimir extends State<Imprimir> {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            dropdownBarType = newValue;
+                            dropdownBarType = newValue!;
                           });
                         },
                         items: <String>[
@@ -477,23 +486,24 @@ class _Imprimir extends State<Imprimir> {
               ),
               SizedBox(
                 width: 300,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text(
                     'IMPRIMIR BARCODE',
                     style: TextStyle(fontSize: 15),
                   ),
                   onPressed: () {
                     _impressaoDeCodigoDeBarra(
-                        myController.value.text.toString(),
-                        dropdownBarHeight,
-                        dropdownBarWidth,
-                        dropdownBarType);
+                      myController.value.text.toString(),
+                      dropdownBarHeight,
+                      dropdownBarWidth,
+                      dropdownBarType!,
+                    );
                   },
                 ),
               ),
               SizedBox(
                 width: 300,
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text(
                     'IMPRIMIR TODAS FUNÇÕES',
                     style: TextStyle(fontSize: 15),

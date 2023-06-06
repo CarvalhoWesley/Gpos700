@@ -21,25 +21,26 @@ Map<String, dynamic> _formatarInfoRecebida(myjson) {
 }
 
 class TefService {
-  TefService(
-      {String valor,
-      String tipoPagamento,
-      int quantParcelas,
-      bool habilitarImpressao,
-      String ip}) {
-    this._ipConfig = ip;
-    this._valorVenda = valor;
-    this._tipoPagamento = tipoPagamento;
-    this._quantParcelas = quantParcelas;
-    this._habilitarImpressao = habilitarImpressao;
+  TefService({
+    String? valor,
+    String? tipoPagamento,
+    int? quantParcelas,
+    bool? habilitarImpressao,
+    String? ip,
+  }) {
+    this._ipConfig = ip!;
+    this._valorVenda = valor!;
+    this._tipoPagamento = tipoPagamento!;
+    this._quantParcelas = quantParcelas!;
+    this._habilitarImpressao = habilitarImpressao!;
   }
 
   final _platform = const MethodChannel('samples.flutter.dev/gedi');
-  String _valorVenda;
-  String _tipoPagamento;
-  int _quantParcelas;
-  bool _habilitarImpressao;
-  String _ipConfig;
+  String? _valorVenda;
+  String? _tipoPagamento;
+  int? _quantParcelas;
+  bool? _habilitarImpressao;
+  String? _ipConfig;
 
   final String _ger7ApiVersion = "1.04";
   final String _ger7SemParcelamento = "0";
@@ -49,8 +50,8 @@ class TefService {
   final String _ger7HabilitaImpressao = "1";
 
 //Metodos Get
-  String get getIpConfig => _ipConfig;
-  String get getValorVenda => _valorVenda;
+  String get getIpConfig => _ipConfig!;
+  String get getValorVenda => _valorVenda!;
 
   //Retorna uma lista onde o Index 0 == TipoPagamento Ger 7 e o 1 == TipoPagamento M-Sitef (Caso exista esse tipo de pagamento no Tef)
   List<String> get getTipoPagamento {
@@ -65,8 +66,8 @@ class TefService {
     }
   }
 
-  int get getQuantParcelas => _quantParcelas;
-  bool get getImpressaoHabilitada => _habilitarImpressao;
+  int get getQuantParcelas => _quantParcelas!;
+  bool get getImpressaoHabilitada => _habilitarImpressao!;
 //Metodos Set
   set setValorVenda(String valor) => _valorVenda = valor;
   set setTipoPagamento(String tipo) => this._tipoPagamento = tipo;
@@ -287,7 +288,7 @@ class TefService {
   // Recebe como parâmetros uma String que está relacionada a ação que deseja ser invocada e uma String relacionado a tef utilizada (ger7,msitef)
   // As ações possiveis são: venda, cancelamento, reimpressao, funcoes (Os valores devem ser escritos exatamente como o demonstrado)
   Future<dynamic> enviarParametrosTef(
-      {@required String tipoAcao, @required String tipoTef}) async {
+      {required String tipoAcao, required String tipoTef}) async {
     var retornoTef;
     var myjson;
     var parametroFormatado;

@@ -1,13 +1,13 @@
 /// Classe utilizada para enviar os dados da venda para o Tef Ger7.
 class Venda {
-  String _type;
-  String _id;
-  String _amount;
-  String _installments;
-  String _instmode;
-  String _product;
-  String _receipt;
-  String _apiversion;
+  String? _type;
+  String? _id;
+  String? _amount;
+  String? _installments;
+  String? _instmode;
+  String? _product;
+  String? _receipt;
+  String? _apiversion;
 
   Map toJson() {
     Map map = new Map();
@@ -23,7 +23,7 @@ class Venda {
   }
 
   String get getType {
-    return _type;
+    return _type ?? '';
   }
 
   set setType(String type) {
@@ -31,7 +31,7 @@ class Venda {
   }
 
   String get getId {
-    return _id;
+    return _id ?? '';
   }
 
   set setId(String id) {
@@ -39,7 +39,7 @@ class Venda {
   }
 
   String get getAmount {
-    return _amount;
+    return _amount ?? '';
   }
 
   set setAmount(String amount) {
@@ -47,7 +47,7 @@ class Venda {
   }
 
   String get getInstallments {
-    return _installments;
+    return _installments ?? '';
   }
 
   set setInstallments(String installments) {
@@ -55,7 +55,7 @@ class Venda {
   }
 
   String get getInstmode {
-    return _instmode;
+    return _instmode ?? '';
   }
 
   set setInstmode(String instmode) {
@@ -63,7 +63,7 @@ class Venda {
   }
 
   String get getProduct {
-    return _product;
+    return _product ?? '';
   }
 
   set setProduct(String product) {
@@ -71,7 +71,7 @@ class Venda {
   }
 
   String get getReceipt {
-    return _receipt;
+    return _receipt ?? '';
   }
 
   set setReceipt(String receipt) {
@@ -79,7 +79,7 @@ class Venda {
   }
 
   String get getApiversion {
-    return _apiversion;
+    return _apiversion ?? '';
   }
 
   set setApiversion(String apiversion) {

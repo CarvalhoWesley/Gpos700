@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 import 'retornoSat.dart';
@@ -9,14 +8,17 @@ const platform = const MethodChannel('samples.flutter.dev/gedi');
 
 class OperacaoSat {
   // Funcão que invoca uma operação no Sat. Recebe como parâmetro um Map com os valores que vão ser enviados para o Sat
-  static Future<RetornoSat> invocarOperacaoSat({Map<String, dynamic> args}) async {
+  static Future<RetornoSat?> invocarOperacaoSat(
+      {Map<String, dynamic>? args}) async {
     try {
       // O resultado da invocação de uma operação é uma String grande contendos todas as informações divida por Pipes "|"
-      String retornoPipeCompleto = await platform.invokeMethod(args['funcao'], args);
+      String retornoPipeCompleto =
+          await platform.invokeMethod(args!['funcao'], args);
 
       // Após a String ser recebida do canal, ela é enviada como parâmetro para a classe [RetornoSat]
       // onde a String é divida e pode ser pego seus valores através de metodos Get e Set.
-      RetornoSat retornoSat = new RetornoSat(args['funcao'], retornoPipeCompleto);
+      RetornoSat retornoSat =
+          new RetornoSat(args['funcao'], retornoPipeCompleto);
       // Esta função já retorna um objeto do tipo [RetornoSat], onde as informações do retorno já podem ser acessadas
       return retornoSat;
     } on Exception catch (_) {
@@ -27,7 +29,7 @@ class OperacaoSat {
   // Função que retorna uma String formatada para ser posta no dialogo Sat, com todas as informações do retorno da operação realizada
   // Em caso de erro retorna o erro
   // *Existem operações que vão ter como resultado informações semelhantes
-  static String formataRetornoSat({@required RetornoSat retornoSat}) {
+  static String formataRetornoSat({required RetornoSat retornoSat}) {
     String retornoFormatado = '';
     // Verifica se existe um erro no retorno
     if (retornoSat.getErroSat != "") {
@@ -38,7 +40,8 @@ class OperacaoSat {
       //* Para mais informações consulte o arquivo retornosSat.txt. É possivel visualizar nele a posição e informação de cada Retorno do Sat.
       if (retornoSat.getNumeroCCCC != "") {
         // Se tiver Código CCCC adiciona ele a string formatada
-        retornoFormatado = retornoSat.getNumeroEEEE + "|" + retornoSat.getNumeroCCCC + "-";
+        retornoFormatado =
+            retornoSat.getNumeroEEEE + "|" + retornoSat.getNumeroCCCC + "-";
       } else {
         // Caso não tenha o código CCCC adicionada somente o EEEE
         retornoFormatado = retornoSat.getNumeroEEEE + "-";
@@ -50,11 +53,16 @@ class OperacaoSat {
 
       // Verifica se adiciona o Código e Mensagem Sefaz na mensagem, caso não estejam vazios
       if (retornoSat.getNumeroCod != "" && retornoSat.getMensagemSefaz != "") {
-        retornoFormatado += "Cod/Mens Sefaz: \n" + retornoSat.getNumeroCod + "-" + retornoSat.getMensagemSefaz;
+        retornoFormatado += "Cod/Mens Sefaz: \n" +
+            retornoSat.getNumeroCod +
+            "-" +
+            retornoSat.getMensagemSefaz;
       } else if (retornoSat.getNumeroCod != "") {
-        retornoFormatado += "Cod/Mens Sefaz: \n" + retornoSat.getNumeroCod + "-";
+        retornoFormatado +=
+            "Cod/Mens Sefaz: \n" + retornoSat.getNumeroCod + "-";
       } else if (retornoSat.getMensagemSefaz != "") {
-        retornoFormatado += "Cod/Mens Sefaz: \n" + "-" + retornoSat.getMensagemSefaz;
+        retornoFormatado +=
+            "Cod/Mens Sefaz: \n" + "-" + retornoSat.getMensagemSefaz;
       }
 
       retornoFormatado += "\n"; // Pula linha
@@ -145,7 +153,8 @@ class OperacaoSat {
             retornoSat.getChaveConsulta +
             "\nArquivo CFE Base 64: " +
             converterBase64EmXml(retornoSat.getArquivoCFeBase64);
-      } else if (retornoSat.getOperacao == "EnviarTesteVendas" || retornoSat.getOperacao == "CancelarUltimaVenda") {
+      } else if (retornoSat.getOperacao == "EnviarTesteVendas" ||
+          retornoSat.getOperacao == "CancelarUltimaVenda") {
         retornoFormatado += "TimeStamp: " +
             retornoSat.getTimeStamp +
             "\nChave de Consulta: " +
@@ -165,6 +174,7 @@ class OperacaoSat {
 
   // Função que converte o arquivo Base 64 em String
   static String converterBase64EmXml(String base64Sat) {
-    return utf8.decode(base64.decode(base64Sat)); // Converte o arquivo Base 64 em String(vai ser usado para visualizar o Xml de resposta)
+    return utf8.decode(base64.decode(
+        base64Sat)); // Converte o arquivo Base 64 em String(vai ser usado para visualizar o Xml de resposta)
   }
 }

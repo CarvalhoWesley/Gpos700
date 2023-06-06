@@ -1,30 +1,30 @@
 /// Classe de retorno, utilizada para atribuir o resultado do Tef Ger7 para um Json.
 class RetornoGer7 {
-  String _version;
-  String _status;
-  String _config;
-  String _license;
-  String _terminal;
-  String _merchant;
-  String _id;
-  String _type;
-  String _product;
-  String _response;
-  String _authorization;
-  String _amount;
-  String _installments;
-  String _instmode;
-  String _stan;
-  String _rrn;
-  String _time;
-  String _print;
-  String _track2;
-  String _aid;
-  String _cardholder;
-  String _prefname;
-  String _errcode;
-  String _errmsg;
-  String _label;
+  String? _version;
+  String? _status;
+  String? _config;
+  String? _license;
+  String? _terminal;
+  String? _merchant;
+  String? _id;
+  String? _type;
+  String? _product;
+  String? _response;
+  String? _authorization;
+  String? _amount;
+  String? _installments;
+  String? _instmode;
+  String? _stan;
+  String? _rrn;
+  String? _time;
+  String? _print;
+  String? _track2;
+  String? _aid;
+  String? _cardholder;
+  String? _prefname;
+  String? _errcode;
+  String? _errmsg;
+  String? _label;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -287,19 +287,19 @@ class RetornoGer7 {
 
 /// Classe de retorno, utilizada para atribuir o resultado do M-Sitef para um Json.
 class RetornoMsiTef {
-  String _cODRESP;
-  String _cOMPDADOSCONF;
-  String _cODTRANS;
-  String _vLTROCO;
-  String _rEDEAUT;
-  String _bANDEIRA;
-  String _nSUSITEF;
-  String _nSUHOST;
-  String _cODAUTORIZACAO;
-  String _tipoPARC;
-  String _numPARC;
-  String _viaESTABELECIMENTO;
-  String _viaCLIENTE;
+  String? _cODRESP;
+  String? _cOMPDADOSCONF;
+  String? _cODTRANS;
+  String? _vLTROCO;
+  String? _rEDEAUT;
+  String? _bANDEIRA;
+  String? _nSUSITEF;
+  String? _nSUHOST;
+  String? _cODAUTORIZACAO;
+  String? _tipoPARC;
+  String? _numPARC;
+  String? _viaESTABELECIMENTO;
+  String? _viaCLIENTE;
   RetornoMsiTef.fromJson(Map<String, dynamic> json) {
     _cODRESP = json['CODRESP'];
     _cOMPDADOSCONF = json['COMP_DADOS_CONF'];
@@ -335,12 +335,12 @@ class RetornoMsiTef {
   }
 
   get getNSUHOST => _nSUHOST;
-  String get getSitefTipoParcela => _tipoPARC;
+  String get getSitefTipoParcela => _tipoPARC ?? '';
   get getNSUSitef => _nSUSITEF;
   get getCodTrans => _cODTRANS;
   get getNameTransCod {
     String retorno = "Valor invalido";
-    switch (int.parse(_tipoPARC)) {
+    switch (int.parse(_tipoPARC ?? '0')) {
       case 0:
         retorno = "A vista";
         break;

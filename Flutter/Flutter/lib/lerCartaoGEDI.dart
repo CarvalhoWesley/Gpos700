@@ -17,15 +17,15 @@ class PageLeituraCartaoGEDI extends StatelessWidget {
 
 class LeituraCartaoGEDI extends StatefulWidget {
   @override
-  LeituraCartaoGEDI({Key key, this.title}) : super(key: key);
-  final String title;
+  LeituraCartaoGEDI({Key? key, this.title}) : super(key: key);
+  final String? title;
   _LeituraCartaoGEDI createState() => _LeituraCartaoGEDI();
 }
 
 class _LeituraCartaoGEDI extends State<LeituraCartaoGEDI> {
   static const platform = const MethodChannel('samples.flutter.dev/gedi');
   final myController = TextEditingController();
-  List<String> resultadosNFCGEDI = new List<String>();
+  List<String> resultadosNFCGEDI = [];
 
   Future<void> _lerCartaoGEDI() async {
     try {
@@ -46,7 +46,7 @@ class _LeituraCartaoGEDI extends State<LeituraCartaoGEDI> {
           children: [
             Container(
                 padding: EdgeInsets.only(top: 60),
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text("Ler Cartão Nfc (GEDI)"),
                   onPressed: () {
                     _lerCartaoGEDI();

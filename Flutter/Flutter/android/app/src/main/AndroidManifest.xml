@@ -19,7 +19,7 @@
     <uses-feature android:name="android.hardware.camera.any" android:required="true" />
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:icon="@mipmap/gertec_one"
         tools:replace="android:icon , android:label"
         android:label="GertecOne Flutter">
